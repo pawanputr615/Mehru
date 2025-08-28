@@ -1,0 +1,330 @@
+<!doctype html>
+<html lang="hi">
+ <head>
+  <meta charset="utf-8">
+  <title>Editable Letter Pad</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Hindi Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: #f2f2f2;
+      font-family: 'Noto Sans Devanagari', sans-serif;
+    }
+
+    .page {
+      width: 210mm;
+      height: 297mm;
+      margin: 20px auto;
+      background: white;
+      box-shadow: 0 0 5px rgba(0,0,0,0.3);
+      position: relative;
+      padding: 40px;
+      box-sizing: border-box;
+    }
+
+    header {
+      text-align: center;
+      line-height: 1.4;
+    }
+
+    header h2 {
+      margin: 0;
+      font-size: 32px;
+      font-weight: bold;
+    }
+
+    header h3 {
+      margin: 0;
+      font-size: 22px;
+      font-weight: bold;
+    }
+
+    header p {
+      margin: 0;
+      font-size: 16px;
+    }
+
+    .line {
+      border-top: 2px solid black;
+      margin: 10px 0;
+    }
+
+    .sub-line {
+      border-top: 2px solid black;
+      margin: 5px 0 15px 0;
+    }
+
+    .editable {
+      outline: none;
+    }
+
+    .row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 5px 0;
+    }
+
+    .row input.calendar {
+      margin-left: 5px;
+    }
+
+    .content {
+      min-height: 300px;
+      font-size: 16px;
+      line-height: 1.6;
+      margin-top: 20px;
+    }
+
+    .signature {
+      text-align: right;
+      margin-top: 40px;
+      font-weight: bold;
+    }
+
+    footer {
+      position: absolute;
+      bottom: 20px;
+      left: 40px;
+      right: 40px;
+      text-align: center;
+      font-size: 14px;
+      border-top: 2px solid black;
+      padding-top: 5px;
+    }
+
+    .buttons {
+      text-align: center;
+      margin: 20px;
+    }
+
+    button {
+      margin: 5px;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    input[type=date] {
+      font-size: 16px;
+      padding: 2px 5px;
+    }
+
+    ol {
+      list-style-type: decimal;
+      margin-left: 20px;
+    }
+  </style>
+ </head>
+ <body>
+  <div class="buttons">
+   <button onclick="downloadPDF()">Download PDF</button>
+   <button onclick="resetContent()">Reset</button>
+  </div>
+  <div class="page" id="letter-pad">
+   <header>
+    <p>राजस्थान सरकार
+     <br>
+     शिक्षा विभाग
+     <br>
+     राज्य सरकार की आदर्श विद्यालय योजना के अन्तर्गत चयनित</p>
+    <h2>राजकीय उच्च माध्यमिक विद्यालय मेहरू</h2>
+    <h3>तहसील टोडारायसिंह जिला टोंक</h3>
+    <div class="line"></div>
+    <!-- क्रमांक / दिनांक -->
+    <div class="row">
+     <span class="editable" contenteditable="true" data-default="क्रमांक :- रा.उ.मा.वि. मेहरू/2025-26/">क्रमांक :- रा.उ.मा.वि. मेहरू/2025-26/</span>
+     <span class="editable" contenteditable="true" data-default="दिनांक :- " id="header-date"> दिनांक :- <input type="date" class="calendar" onchange="
+                   const d=new Date(this.value);
+                   const day=('0'+d.getDate()).slice(-2);
+                   const month=('0'+(d.getMonth()+1)).slice(-2);
+                   const year=d.getFullYear();
+                   this.parentElement.innerText='दिनांक :- '+day+'/'+month+'/'+year;
+                 "> </span>
+    </div>
+    <div class="sub-line"></div>
+   </header>
+   <!-- कार्यालय आदेश -->
+   <h2 style="text-align:center; font-weight:bold;" class="editable" contenteditable="true" data-default="कार्यालय आदेश">कार्यालय आदेश</h2>
+   <!-- मुख्य कंटेन्ट -->
+   <div class="content editable" contenteditable="true" data-default="यहाँ अपना पत्र लिखें...">यहाँ अपना पत्र लिखें...</div>
+   <!-- प्रधानाचार्य -->
+   <div class="signature">
+    <div class="editable" contenteditable="true" data-default="प्रधानाचार्य &nbsp;&nbsp;&nbsp;&nbsp;">प्रधानाचार्य &nbsp;&nbsp;&nbsp;&nbsp;</div>
+    <div class="editable" contenteditable="true" data-default="रा.उ.मा.वि. मेहरू">रा.उ.मा.वि. मेहरू</div>
+   </div>
+   <!-- नीचे क्रमांक / दिनांक -->
+   <div class="row" style="margin-top:40px;">
+    <span class="editable" contenteditable="true" data-default="क्रमांक :- रा.उ.मा.वि / मेहरू /2025-26/">क्रमांक :- रा.उ.मा.वि / मेहरू /2025-26/</span>
+    <span class="editable" contenteditable="true" data-default="दिनांक :- " id="footer-date"> दिनांक :- <input type="date" class="calendar" onchange="
+                 const d=new Date(this.value);
+                 const day=('0'+d.getDate()).slice(-2);
+                 const month=('0'+(d.getMonth()+1)).slice(-2);
+                 const year=d.getFullYear();
+                 this.parentElement.innerText='दिनांक :- '+day+'/'+month+'/'+year;
+               "> </span>
+   </div>
+   <!-- सूचनार्थ प्रतिलिपि -->
+   <p><b>प्रतिलिपि सूचनार्थ :-</b></p>
+   <ol id="copy-list">
+    <li class="editable" contenteditable="true" data-default="श्रीमान जिला शिक्षा अधिकारी(मुख्यालय), माध्यमिक टोंक">श्रीमान जिला शिक्षा अधिकारी(मुख्यालय), माध्यमिक टोंक</li>
+    <li class="editable" contenteditable="true" data-default="रक्षित पत्रावली">रक्षित पत्रावली</li>
+   </ol>
+   <div class="signature">
+    <div class="editable" contenteditable="true" data-default="प्रधानाचार्य &nbsp;&nbsp;&nbsp;&nbsp;">प्रधानाचार्य &nbsp;&nbsp;&nbsp;&nbsp;</div>
+    <div class="editable" contenteditable="true" data-default="रा.उ.मा.वि. मेहरू">रा.उ.मा.वि. मेहरू</div>
+   </div>
+   <footer>
+    ग्राम पोस्ट- मेहरू, तहसील- टोडारायसिंह , जिला-टोंक (राज.) पिन कोड-304502
+    <br>
+    Email:- gssmehru@gmail.com | U-Dise Code:- 08220407201
+   </footer>
+  </div>
+  <!-- jsPDF & html2canvas -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script>
+    // --- Editable <li> behaviour: Enter creates a new numbered <li>, Backspace on empty removes it ---
+    function initEditableList() {
+      const list = document.getElementById('copy-list');
+
+      function placeCaretAtStart(node) {
+        node.focus();
+        const sel = window.getSelection();
+        const range = document.createRange();
+        if (!node.firstChild) node.appendChild(document.createTextNode(''));
+        if (node.firstChild.nodeType !== Node.TEXT_NODE) {
+          node.insertBefore(document.createTextNode(''), node.firstChild);
+        }
+        range.setStart(node.firstChild, 0);
+        range.collapse(true);
+        sel.removeAllRanges();
+        sel.addRange(range);
+      }
+
+      function placeCaretAtEnd(node) {
+        node.focus();
+        const sel = window.getSelection();
+        const range = document.createRange();
+        if (!node.firstChild) node.appendChild(document.createTextNode(''));
+        if (node.firstChild.nodeType !== Node.TEXT_NODE) {
+          node.appendChild(document.createTextNode(''));
+        }
+        const len = node.firstChild.length;
+        range.setStart(node.firstChild, len);
+        range.collapse(true);
+        sel.removeAllRanges();
+        sel.addRange(range);
+      }
+
+      function createEditableLi(text) {
+        const li = document.createElement('li');
+        li.className = 'editable';
+        li.setAttribute('contenteditable', 'true');
+        li.setAttribute('data-default', text || '');
+        li.innerText = text || '';
+        li.addEventListener('keydown', liKeyDownHandler);
+        return li;
+      }
+
+      function liKeyDownHandler(e) {
+        const current = e.currentTarget;
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          const newLi = createEditableLi('');
+          if (current.nextSibling) current.parentNode.insertBefore(newLi, current.nextSibling);
+          else current.parentNode.appendChild(newLi);
+          placeCaretAtStart(newLi);
+          return;
+        }
+
+        if (e.key === 'Backspace') {
+          const text = current.textContent.replace(/\u00A0/g, '').trim();
+          if (text.length === 0) {
+            e.preventDefault();
+            const prev = current.previousElementSibling;
+            const parent = current.parentNode;
+            parent.removeChild(current);
+            if (prev) {
+              placeCaretAtEnd(prev);
+            } else {
+              // if list became empty, keep one empty editable li so user can type
+              if (!parent.querySelector('li')) {
+                const li = createEditableLi('');
+                parent.appendChild(li);
+                placeCaretAtStart(li);
+              } else {
+                const first = parent.querySelector('li');
+                placeCaretAtStart(first);
+              }
+            }
+          }
+        }
+      }
+
+      // Attach handlers to existing <li> items
+      list.querySelectorAll('li.editable').forEach(li => {
+        // remove existing to avoid duplicate listeners
+        li.removeEventListener('keydown', liKeyDownHandler);
+        li.addEventListener('keydown', liKeyDownHandler);
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      initEditableList();
+    });
+
+    async function downloadPDF() {
+      const { jsPDF } = window.jspdf;
+      const letterPad = document.getElementById("letter-pad");
+
+      const krmank = document.querySelector('.row span:first-child.editable').innerText;
+      const dinank = document.querySelector('.row span:last-child.editable').innerText;
+
+      const krmankNumMatch = krmank.match(/(\d+)$/);
+      const krmankNum = krmankNumMatch ? krmankNumMatch[1] : "000";
+
+      const dinankNumMatch = dinank.match(/(\d{2})\/(\d{2})\/(\d{4})/);
+      let dinankNum = "00000000";
+      if(dinankNumMatch){
+        const yearShort = dinankNumMatch[3].slice(-2);
+        dinankNum = dinankNumMatch[1] + dinankNumMatch[2] + yearShort;
+      }
+
+      const fileName = krmankNum + dinankNum;
+
+      const canvas = await html2canvas(letterPad, { scale: 2 });
+      const imgData = canvas.toDataURL("image/png");
+
+      const pdf = new jsPDF("p", "mm", "a4");
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = pdf.internal.pageSize.getHeight();
+
+      pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+      pdf.save(fileName + ".pdf");
+    }
+
+    function resetContent() {
+      document.querySelectorAll(".editable").forEach(el => {
+        // calendar वाले span के लिए input recreate करें
+        if(el.id === "header-date" || el.id === "footer-date") {
+          el.innerHTML = 'दिनांक :- <input type="date" class="calendar" ' +
+                         'onchange="const d=new Date(this.value);' +
+                         "const day=('0'+d.getDate()).slice(-2);" +
+                         "const month=('0'+(d.getMonth()+1)).slice(-2);" +
+                         "const year=d.getFullYear();" +
+                         "this.parentElement.innerText='दिनांक :- '+day+'/'+month+'/'+year" +
+                         '">';
+        } else {
+          el.innerHTML = el.getAttribute("data-default");
+        }
+      });
+      // re-init list handlers after resetting content
+      initEditableList();
+    }
+  </script>
+ </body>
+</html>
